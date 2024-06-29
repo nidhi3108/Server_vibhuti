@@ -14,33 +14,36 @@ router.post('/courseadd',(req,res)=>{
     })
 })
 
-// GET route to search for courses
 router.get('/search', async (req, res) => {
     try {
-        const { name, topicId, minPrice, maxPrice } = req.query;
+        const { query, topic, minPrice, maxPrice, sort } = req.query;
 
-        // Build a query object based on provided query parameters
-        const query = {};
-        
-        if (name) {
-            query.name = { $regex: name, $options: 'i' }; // Case-insensitive search
+        // Build the query object
+        const searchQuery = {};
+        if (query) {
+            searchQuery.name = { $regex: query, $options: 'i' }; // Case-insensitive search
         }
-        
-        if (topicId) {
-            query.topicId = topicId;
+        if (topic) {
+            searchQuery.topicId = topic;
         }
-        
         if (minPrice || maxPrice) {
-            query['priceRange.min'] = { $gte: minPrice || 0 }; // Greater than or equal to minPrice
-            query['priceRange.max'] = { $lte: maxPrice || Number.MAX_SAFE_INTEGER }; // Less than or equal to maxPrice
+            searchQuery['priceRange.min'] = { $gte: minPrice || 0 };
+            searchQuery['priceRange.max'] = { $lte: maxPrice || Number.MAX_SAFE_INTEGER };
         }
 
-        const courses = await Course.find(query);
+        // Build the sort object
+        let sortOption = { createdOn: -1 }; // Default to newest
+        if (sort === 'ascending') {
+            sortOption = { createdOn: 1 };
+        }
+
+        const courses = await Course.find(searchQuery).sort(sortOption);
         res.json(courses);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 
 
