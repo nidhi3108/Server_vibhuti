@@ -6,5 +6,5 @@ const coursespeakerschema= new Schema({
     speakerId: mongoose.Schema.Types.ObjectId,
 })
 
-const coursespeakermodel=model("coursespeakermodel",coursespeakerschema)
+const coursespeakermodel=model("courses_peaker",coursespeakerschema)
 module.exports=coursespeakermodel

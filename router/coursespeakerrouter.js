@@ -1,10 +1,10 @@
 const router= require("express").Router();
 
-const coursespeakermodel = require('../models/coursespeakermodel');
+const course_speaker = require('../models/coursespeakermodel');
 
 router.post('/coursespeakeradd',(req,res)=>{
     console.log(req.body);
-    new coursespeakermodel(req.body).save()
+    new course_speaker(req.body).save()
     .then((result)=>{
         console.log("course speaker data save");
         res.json(result);

@@ -5,9 +5,12 @@ const Courseschema= new Schema({
     id: String,
     name: String,
     topicId: mongoose.Schema.Types.ObjectId,
-    priceRange: String,
+    priceRange: {
+        min: { type: Number, required: true },
+        max: { type: Number, required: true }
+    },
     createdOn: { type: Date, default: Date.now }
 })
 
-const Coursemodel=model("Coursemodel", Courseschema)
+const Coursemodel=model("course", Courseschema)
 module.exports=Coursemodel
