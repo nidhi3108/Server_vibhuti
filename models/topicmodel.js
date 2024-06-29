@@ -5,5 +5,5 @@ const topicschema= new Schema({
     name:String
 })
 
-const topicmodel=model("topicmodel",topicschema)
+const topicmodel=model("topics",topicschema)
 module.exports=topicmodel
